@@ -1,7 +1,18 @@
 from cgi import test
 import pygame
+from pygame.math import Vector2
+
+class FRUIT:
+    def __init__(self):
+        # create x and y position
+        self.x = 4
+        self.y = 5
+        self.pos = Vector2(self.x, self.y)
+        # draw a square
 
 pygame.init()
+cell_size = 40
+cell_no = 20
 screen = pygame.display.set_mode((400, 500))
 
 # Title and Icon
@@ -13,12 +24,12 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
 # Surface 
-test_surface = pygame.Surface((100, 200)) # size of surface
-test_surface.fill((0, 0, 250))
+# test_surface = pygame.Surface((100, 200)) # size of surface
+# test_surface.fill((0, 0, 250))
 
 # Rectangle object
 # test_rect = pygame.Rect((100, 200, 100, 100))  # (x, y, w, h)
-test_rect = test_surface.get_rect(center = (200, 250))
+# test_rect = test_surface.get_rect(center = (200, 250))
 # place the rect around surface and put it in the middle of screen
 
 running = True
@@ -30,12 +41,12 @@ while running:
     screen.fill((175, 215, 70))
     # screen.fill(pygame.Color('gold'))   # predefined color
     
-    test_rect.right += 1
+    # test_rect.right += 1
     
     # background surface
     # screen.blit(test_surface, (200, 250))   # position of surface
                                             # top-left of the surface    
-    screen.blit(test_surface, test_rect)
+    # screen.blit(test_surface, test_rect)
     
     # Draw rectangle
     # pygame.draw.rect(screen, pygame.Color('red'), test_rect)
