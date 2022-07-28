@@ -1,19 +1,24 @@
 from cgi import test
-import pygame
+import pygame, random
 from pygame.math import Vector2
 
 class FRUIT:
     def __init__(self):
         # create x and y position
-        self.x = 4
-        self.y = 5
+        self.x = random.randint(0, cell_no - 1)
+        self.y = random.randint(0, cell_no - 1)
         self.pos = Vector2(self.x, self.y)
         # draw a square
+    def draw_fruit(self):
+        # create a rect
+        fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size)
+        # draw the rect
+        pygame.draw.rect(screen, (126, 166, 114), fruit_rect)
 
 pygame.init()
-cell_size = 40
+cell_size = 30
 cell_no = 20
-screen = pygame.display.set_mode((400, 500))
+screen = pygame.display.set_mode((cell_no * cell_size, cell_no * cell_size))
 
 # Title and Icon
 pygame.display.set_caption("SNAKE")
@@ -22,6 +27,9 @@ pygame.display.set_icon(icon)
 
 # Time object to influence time in Pygame
 clock = pygame.time.Clock()
+
+# FRUIT class
+fruit = FRUIT()
 
 # Surface 
 # test_surface = pygame.Surface((100, 200)) # size of surface
@@ -55,3 +63,4 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     clock.tick(60)      # time-frame: number of time while loop runs per sec
+    fruit.draw_fruit()
