@@ -18,10 +18,19 @@ class FRUIT:
 class SNAKE:
     def __init__(self):
         self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+        self.direction = Vector2(0, 1)
     def draw_snake(self):
         for block in self.body:
             body_rect = pygame.Rect(block.x * cell_size, block.y * cell_size, cell_size, cell_size)
             pygame.draw.rect(screen, (183, 111, 122), body_rect)
+    # MOVING THE SNAKE
+    # The head is moved to a new block, each following block 
+    # is moved to the position of the previous block used to be
+    def move_snake(self):
+        body_copy = self.body[:-1]  # get all body except for the last block
+        body_copy.insert(0, body_copy[0] + self.direction)  # add a new block head and direction
+        self.body = body_copy[:]
+
 
 pygame.init()
 cell_size = 30
@@ -49,6 +58,10 @@ snake = SNAKE()
 # test_rect = test_surface.get_rect(center = (200, 250))
 # place the rect around surface and put it in the middle of screen
 
+# Event 
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE, 150)   # trigger SCREEN_UPDATE event every 150ms
+
 running = True
 while running:
     # draw all elements
@@ -71,6 +84,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == SCREEN_UPDATE:
+            snake.move_snake()
     clock.tick(60)      # time-frame: number of time while loop runs per sec
     fruit.draw_fruit()
     snake.draw_snake()
