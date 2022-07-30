@@ -15,6 +15,14 @@ class FRUIT:
         # draw the rect
         pygame.draw.rect(screen, (126, 166, 114), fruit_rect)
 
+class SNAKE:
+    def __init__(self):
+        self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+    def draw_snake(self):
+        for block in self.body:
+            body_rect = pygame.Rect(block.x * cell_size, block.y * cell_size, cell_size, cell_size)
+            pygame.draw.rect(screen, (183, 111, 122), body_rect)
+
 pygame.init()
 cell_size = 30
 cell_no = 20
@@ -28,8 +36,9 @@ pygame.display.set_icon(icon)
 # Time object to influence time in Pygame
 clock = pygame.time.Clock()
 
-# FRUIT class
+# create an object of FRUIT and SNAKE class
 fruit = FRUIT()
+snake = SNAKE()
 
 # Surface 
 # test_surface = pygame.Surface((100, 200)) # size of surface
@@ -64,3 +73,4 @@ while running:
             running = False
     clock.tick(60)      # time-frame: number of time while loop runs per sec
     fruit.draw_fruit()
+    snake.draw_snake()
