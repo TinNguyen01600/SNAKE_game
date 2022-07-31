@@ -18,7 +18,7 @@ class FRUIT:
 class SNAKE:
     def __init__(self):
         self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
-        self.direction = Vector2(0, 1)
+        self.direction = Vector2(1, 0)
     def draw_snake(self):
         for block in self.body:
             body_rect = pygame.Rect(block.x * cell_size, block.y * cell_size, cell_size, cell_size)
@@ -61,7 +61,7 @@ snake = SNAKE()
 # Event 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)   # trigger SCREEN_UPDATE event every 150ms
-
+                                            # 150ms is the speed of the moving snake
 running = True
 while running:
     # draw all elements
@@ -86,6 +86,15 @@ while running:
             running = False
         if event.type == SCREEN_UPDATE:
             snake.move_snake()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.direction = Vector2(0, -1)
+            if event.key == pygame.K_DOWN:
+                snake.direction = Vector2(0, 1)
+            if event.key == pygame.K_LEFT:
+                snake.direction = Vector2(-1, 0)
+            if event.key == pygame.K_RIGHT:
+                snake.direction = Vector2(1, 0)
     clock.tick(60)      # time-frame: number of time while loop runs per sec
     fruit.draw_fruit()
     snake.draw_snake()
