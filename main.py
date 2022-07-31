@@ -31,6 +31,17 @@ class SNAKE:
         body_copy.insert(0, body_copy[0] + self.direction)  # add a new block head and direction
         self.body = body_copy[:]
 
+# This class contains snake, fruit and other game logic
+class MAIN:
+    def __init__(self):
+        self.snake = SNAKE()
+        self.fruit = FRUIT()
+    def update(self):
+        self.snake.move_snake()
+    def draw_elements(self):
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+        
 
 pygame.init()
 cell_size = 30
@@ -45,10 +56,6 @@ pygame.display.set_icon(icon)
 # Time object to influence time in Pygame
 clock = pygame.time.Clock()
 
-# create an object of FRUIT and SNAKE class
-fruit = FRUIT()
-snake = SNAKE()
-
 # Surface 
 # test_surface = pygame.Surface((100, 200)) # size of surface
 # test_surface.fill((0, 0, 250))
@@ -57,6 +64,8 @@ snake = SNAKE()
 # test_rect = pygame.Rect((100, 200, 100, 100))  # (x, y, w, h)
 # test_rect = test_surface.get_rect(center = (200, 250))
 # place the rect around surface and put it in the middle of screen
+
+main_game = MAIN()
 
 # Event 
 SCREEN_UPDATE = pygame.USEREVENT
@@ -85,16 +94,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == SCREEN_UPDATE:
-            snake.move_snake()
+            main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.direction = Vector2(0, -1)
+                main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                snake.direction = Vector2(0, 1)
+                main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_LEFT:
-                snake.direction = Vector2(-1, 0)
+                main_game.snake.direction = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:
-                snake.direction = Vector2(1, 0)
+                main_game.snake.direction = Vector2(1, 0)
     clock.tick(60)      # time-frame: number of time while loop runs per sec
-    fruit.draw_fruit()
-    snake.draw_snake()
+    main_game.draw_elements()
