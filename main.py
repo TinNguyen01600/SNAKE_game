@@ -1,4 +1,5 @@
 from cgi import test
+import sys
 import pygame, random
 from pygame.math import Vector2
 
@@ -30,13 +31,11 @@ class SNAKE:
     def move_snake(self):
         if self.new_block == True:
             body_copy = self.body[:]    # get all snake's body
-            body_copy.insert(0, body_copy[0] + self.direction)
-            self.body = body_copy[:]
             self.new_block = False
         else:
             body_copy = self.body[:-1]  # get all body except for the last block
-            body_copy.insert(0, body_copy[0] + self.direction)  # add a new block head and direction
-            self.body = body_copy[:]
+        body_copy.insert(0, body_copy[0] + self.direction)  # add a new block head and direction
+        self.body = body_copy[:]
     def add_block(self):
         self.new_block = True
 
@@ -48,6 +47,7 @@ class MAIN:
     def update(self):
         self.snake.move_snake()
         self.check_collision()
+        self.check_die()
     def draw_elements(self):
         self.fruit.draw_fruit()
         self.snake.draw_snake()
@@ -57,6 +57,15 @@ class MAIN:
             self.fruit.randomize()
             # add another block to the snake
             self.snake.add_block()
+    def check_die(self):
+        # check if snake is outside of the screen
+        if not(0 <= self.snake.body[0].x <= cell_no):
+            self.game_over()
+        # check if snake hits itself
+        
+    def game_over(self):
+        pygame.quit()
+        sys.exit()
 pygame.init()
 cell_size = 30
 cell_no = 20
