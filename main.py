@@ -18,7 +18,7 @@ class FRUIT:
 
 class SNAKE:
     def __init__(self):
-        self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+        self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
         self.direction = Vector2(1, 0)
         self.new_block = False
     def draw_snake(self):
@@ -59,10 +59,12 @@ class MAIN:
             self.snake.add_block()
     def check_die(self):
         # check if snake is outside of the screen
-        if not(0 <= self.snake.body[0].x <= cell_no):
+        if not(0 <= self.snake.body[0].x <= cell_no) or not(0 <= self.snake.body[0].y <= cell_no):
             self.game_over()
         # check if snake hits itself
-        
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.game_over()
     def game_over(self):
         pygame.quit()
         sys.exit()
@@ -120,12 +122,17 @@ while running:
             main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                main_game.snake.direction = Vector2(0, -1)
+                # make sure we dont push UP when snake's moving downward
+                if main_game.snake.direction.y != 1:
+                    main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                main_game.snake.direction = Vector2(0, 1)
+                if main_game.snake.direction.y != -1:
+                    main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_LEFT:
-                main_game.snake.direction = Vector2(-1, 0)
+                if main_game.snake.direction.x != 1:
+                    main_game.snake.direction = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:
-                main_game.snake.direction = Vector2(1, 0)
+                if main_game.snake.direction.x != -1:
+                    main_game.snake.direction = Vector2(1, 0)
     clock.tick(60)      # time-frame: number of time while loop runs per sec
     main_game.draw_elements()
