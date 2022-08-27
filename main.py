@@ -10,7 +10,8 @@ class FRUIT:
         # create a rect
         fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size)
         # draw the rect
-        pygame.draw.rect(screen, (126, 166, 114), fruit_rect)
+        # pygame.draw.rect(screen, (126, 166, 114), fruit_rect)
+        screen.blit(apple, fruit_rect)
     def randomize(self):    # create a random new position for the fruit
         self.x = random.randint(0, cell_no - 1)
         self.y = random.randint(0, cell_no - 1)
@@ -68,6 +69,7 @@ class MAIN:
     def game_over(self):
         pygame.quit()
         sys.exit()
+
 pygame.init()
 cell_size = 30
 cell_no = 20
@@ -80,6 +82,8 @@ pygame.display.set_icon(icon)
 
 # Time object to influence time in Pygame
 clock = pygame.time.Clock()
+
+apple = pygame.image.load('apple.png').convert_alpha()
 
 # Surface 
 # test_surface = pygame.Surface((100, 200)) # size of surface
