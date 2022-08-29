@@ -22,10 +22,26 @@ class SNAKE:
         self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
         self.direction = Vector2(1, 0)
         self.new_block = False
+        
+        self.head_up = pygame.image.load('head_up.png').convert_alpha()
+        self.head_down = pygame.image.load('head_down.png').convert_alpha()
+        self.head_right = pygame.image.load('head_right.png').convert_alpha()
+        self.head_left = pygame.image.load('head_left.png').convert_alpha()
+        
     def draw_snake(self):
-        for block in self.body:
-            body_rect = pygame.Rect(block.x * cell_size, block.y * cell_size, cell_size, cell_size)
-            pygame.draw.rect(screen, (183, 111, 122), body_rect)
+        # We have to look for each body block AND (its before and after block)
+        for index, block in enumerate(self.body):
+            # 1. We still need a rect for positioning
+            x_pos = int(block.x * cell_size)
+            y_pos = int(block.y * cell_size)
+            block_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
+            
+            # 2. What direction is the face heading
+            if index == 0:
+                screen.blit(self.head_right, block_rect)
+            else:
+                pygame.draw.rect(screen, (150, 100, 100), block_rect)
+        
     # MOVING THE SNAKE
     # The head is moved to a new block, each following block 
     # is moved to the position of the previous block used to be
