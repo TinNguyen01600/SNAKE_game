@@ -28,7 +28,21 @@ class SNAKE:
         self.head_right = pygame.image.load('head_right.png').convert_alpha()
         self.head_left = pygame.image.load('head_left.png').convert_alpha()
         
+        self.tail_up = pygame.image.load('tail_up.png').convert_alpha()
+        self.tail_down = pygame.image.load('tail_down.png').convert_alpha()
+        self.tail_right = pygame.image.load('tail_right.png').convert_alpha()
+        self.tail_left = pygame.image.load('tail_left.png').convert_alpha()
+        
+        self.body_vertical = pygame.image.load('body_vertical.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('body_horizontal.png').convert_alpha()
+        
+        self.body_tr = pygame.image.load('body_tr.png').convert_alpha()
+        self.body_tl = pygame.image.load('body_tl.png').convert_alpha()
+        self.body_br = pygame.image.load('body_br.png').convert_alpha()
+        self.body_bl = pygame.image.load('body_bl.png').convert_alpha()
+          
     def draw_snake(self):
+        self.update_head_graphics()
         # We have to look for each body block AND (its before and after block)
         for index, block in enumerate(self.body):
             # 1. We still need a rect for positioning
@@ -38,9 +52,18 @@ class SNAKE:
             
             # 2. What direction is the face heading
             if index == 0:
-                screen.blit(self.head_right, block_rect)
+                screen.blit(self.head, block_rect)
+                # 3. Snake head direction update
             else:
                 pygame.draw.rect(screen, (150, 100, 100), block_rect)
+    
+    def update_head_graphics(self):
+        head_relation = self.body[1] - self.body[0]
+        if head_relation == Vector2(1,0):   self.head = self.head_left
+        elif head_relation == Vector2(-1,0):self.head = self.head_right
+        elif head_relation == Vector2(0,1): self.head = self.head_up
+        elif head_relation == Vector2(0,-1):self.head = self.head_down
+        
         
     # MOVING THE SNAKE
     # The head is moved to a new block, each following block 
