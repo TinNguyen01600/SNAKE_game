@@ -116,6 +116,7 @@ class MAIN:
         self.check_collision()
         self.check_die()
     def draw_elements(self):
+        self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
     def check_collision(self):
@@ -126,7 +127,7 @@ class MAIN:
             self.snake.add_block()
     def check_die(self):
         # check if snake is outside of the screen
-        if not(0 <= self.snake.body[0].x <= cell_no) or not(0 <= self.snake.body[0].y <= cell_no):
+        if not(0 <= self.snake.body[0].x < cell_no) or not(0 <= self.snake.body[0].y < cell_no):
             self.game_over()
         # check if snake hits itself
         for block in self.snake.body[1:]:
@@ -135,9 +136,18 @@ class MAIN:
     def game_over(self):
         pygame.quit()
         sys.exit()
+    def draw_grass(self):
+        grass_color = (167,209,61)
+        for row in range(cell_no//2):
+            for col in range(cell_no//2):
+                grass_rect1 = pygame.Rect(col * 2 * cell_size, row * 2 * cell_size, cell_size, cell_size)
+                grass_rect2 = pygame.Rect((col * 2 + 1) * cell_size, (row * 2 + 1) * cell_size, cell_size, cell_size)
+                pygame.draw.rect(screen, grass_color, grass_rect1)
+                pygame.draw.rect(screen, grass_color, grass_rect2)
+                
 
 pygame.init()
-cell_size = 30
+cell_size = 40
 cell_no = 20
 screen = pygame.display.set_mode((cell_no * cell_size, cell_no * cell_size))
 
