@@ -1,5 +1,6 @@
 from cgi import test
 import sys
+from tkinter import CENTER
 import pygame, random
 from pygame.math import Vector2
 
@@ -119,6 +120,7 @@ class MAIN:
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+        self.draw_score()
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             # reposition the fruit
@@ -144,6 +146,20 @@ class MAIN:
                 grass_rect2 = pygame.Rect((col * 2 + 1) * cell_size, (row * 2 + 1) * cell_size, cell_size, cell_size)
                 pygame.draw.rect(screen, grass_color, grass_rect1)
                 pygame.draw.rect(screen, grass_color, grass_rect2)
+    def draw_score(self):
+        score_text = str(len(self.snake.body) - 3)  # there is 3 blocks initially
+        score_surface = game_font.render(score_text, True, (255,0,0))
+        score_x = int(cell_size * cell_no - 60)
+        score_y = int(cell_size * cell_no - 40)
+        score_rect = score_surface.get_rect(center = (score_x, score_y))
+        apple_rect = apple.get_rect(midright = (score_rect.left, score_rect.centery))
+        bg_rect = pygame.Rect(apple_rect.left - 6, apple_rect.top - 6, apple_rect.width + score_rect.width + 15, apple_rect.height + 12)
+        
+        pygame.draw.rect(screen, (167, 209, 61), bg_rect)
+        screen.blit(score_surface, score_rect)
+        screen.blit(apple, apple_rect)
+        pygame.draw.rect(screen, (0,0,0), bg_rect, 2)
+        
                 
 
 pygame.init()
@@ -160,6 +176,8 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
 apple = pygame.image.load('apple.png').convert_alpha()
+
+game_font = pygame.font.Font('One_Crayon.ttf', 30)
 
 # Surface 
 # test_surface = pygame.Surface((100, 200)) # size of surface
