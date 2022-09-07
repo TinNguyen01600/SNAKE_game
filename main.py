@@ -41,6 +41,8 @@ class SNAKE:
         self.body_tl = pygame.image.load('body_tl.png').convert_alpha()
         self.body_br = pygame.image.load('body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('body_bl.png').convert_alpha()
+        
+        self.crunch_sound = pygame.mixer.Sound('crunch.wav')
           
     def draw_snake(self):
         # 3. Snake head direction update
@@ -104,8 +106,12 @@ class SNAKE:
             body_copy = self.body[:-1]  # get all body except for the last block
         body_copy.insert(0, body_copy[0] + self.direction)  # add a new block head and direction
         self.body = body_copy[:]
+    
     def add_block(self):
         self.new_block = True
+        
+    def play_sound(self) :
+        self.crunch_sound.play()
 
 # This class contains snake, fruit and other game logic
 class MAIN:
@@ -127,6 +133,7 @@ class MAIN:
             self.fruit.randomize()
             # add another block to the snake
             self.snake.add_block()
+            self.snake.play_sound()
     def check_die(self):
         # check if snake is outside of the screen
         if not(0 <= self.snake.body[0].x < cell_no) or not(0 <= self.snake.body[0].y < cell_no):
@@ -161,7 +168,7 @@ class MAIN:
         pygame.draw.rect(screen, (0,0,0), bg_rect, 2)
         
                 
-
+pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
 cell_size = 40
 cell_no = 20
